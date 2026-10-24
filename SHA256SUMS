@@ -1,0 +1,2 @@
+5d63dc4189a312d0372d8bf44e38d51a25ed120be231635085c89fbfdec487ba  patches/0001-client-Handle-system-bus-connection-failures.patch
+292c2e7244d07898e21326875388ba3a3405663d7de1307c34dc71e8144b203a  patches/0002-test-Cover-bluetoothctl-bus-connection-failures.patch

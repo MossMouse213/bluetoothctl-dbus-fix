@@ -1,0 +1,28 @@
+name: Bluetoothctl regression
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential autoconf automake libtool pkg-config libglib2.0-dev libdbus-1-dev libreadline-dev python3
+      - name: Apply backport to BlueZ 5.87
+        run: |
+          git clone --depth 1 --branch 5.87 https://github.com/bluez/bluez.git source
+          git -C source -c user.name='Regression CI' -c user.email='ci@example.invalid' am "$GITHUB_WORKSPACE"/patches/*.patch
+      - name: Build client
+        working-directory: source
+        run: |
+          ./bootstrap
+          ./configure --disable-systemd --disable-udev --disable-cups --disable-obex --disable-manpages --disable-tools --disable-monitor
+          make -j2 client/bluetoothctl
+      - name: Test connection failures and offline help
+        run: python3 source/test/test-bluetoothctl-dbus source/client/bluetoothctl

@@ -1,0 +1,2 @@
+# Preserve email patch context and signatures exactly as git format-patch emits.
+*.patch -whitespace

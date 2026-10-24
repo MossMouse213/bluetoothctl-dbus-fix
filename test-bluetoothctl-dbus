@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-or-later
+"""Run with: python3 test/test-bluetoothctl-dbus ./client/bluetoothctl."""
+
+import os
+from pathlib import Path
+import resource
+import subprocess
+import sys
+import tempfile
+import unittest
+
+
+BINARY = str(Path(sys.argv.pop(1)).resolve()) if len(sys.argv) > 1 else None
+
+
+def disable_core_dumps():
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+
+
+class BluetoothctlBusFailure(unittest.TestCase):
+    def run_client(self, address, *args):
+        env = dict(os.environ, DBUS_SYSTEM_BUS_ADDRESS=address)
+        return subprocess.run(
+            [BINARY, *args], env=env, capture_output=True, text=True,
+            timeout=5, preexec_fn=disable_core_dumps,
+        )
+
+    def assert_bus_failure(self, result):
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("Failed to connect to system D-Bus:", result.stderr)
+        self.assertNotIn("assertion", result.stderr.lower())
+
+    def test_missing_bus(self):
+        with tempfile.TemporaryDirectory(prefix="bluetoothctl-test-") as path:
+            address = "unix:path=" + path + "/missing-bus"
+            for command in ("list", "show"):
+                with self.subTest(command=command):
+                    result = self.run_client(address, command)
+                    self.assert_bus_failure(result)
+                    self.assertIn("missing-bus", result.stderr)
+
+    def test_invalid_address(self):
+        self.assert_bus_failure(self.run_client("invalid:", "list"))
+
+    def test_help_and_version_without_bus(self):
+        for option in ("--help", "--version"):
+            with self.subTest(option=option):
+                result = self.run_client("invalid:", option)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertNotIn("Failed to connect", result.stderr)
+
+
+if __name__ == "__main__":
+    if BINARY is None:
+        sys.exit("Usage: test-bluetoothctl-dbus /path/to/bluetoothctl")
+    unittest.main()
