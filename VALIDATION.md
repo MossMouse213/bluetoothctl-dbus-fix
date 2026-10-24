@@ -78,7 +78,15 @@ these results do not establish support for the Mac's internal controller.
 - `--help` and `--version`: succeed without an accessible system bus.
 - Normal host access: patched `list` and `show` both return 0 and find the
   powered-on adapter.
-- Pairing, reconnect after suspend, and audio playback were not tested.
+- Subsequent user testing confirmed pairing and audio playback with a Microsoft
+  Modern Wireless Headset. After reconnection, the Bluetooth link was up but
+  the audio card was missing. BlueZ logged A2DP authorization cancellation and
+  the paired device had `Trusted: no`.
+- Marking that already-paired headset trusted and reconnecting it restored its
+  PipeWire card and A2DP output; Firefox was routed to it, and the user confirmed
+  the recovery worked. See [the separate headset guide](HEADSET-AUDIO.md).
+- Repeated power-cycle reliability, microphone recording, and reconnect after
+  suspend have not been verified.
 
 No MAC addresses, core dumps, or pairing keys are included in this report.
 

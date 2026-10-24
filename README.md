@@ -6,6 +6,10 @@ A tested backport and regression suite for `bluetoothctl` aborting with
 `dbus_connection_get_object_path_data` and `connection != NULL` when system
 D-Bus is unavailable. Useful on Omarchy/Arch and in restricted environments.
 
+**Headset connected but missing from sound outputs after reconnecting?** See
+[the Bluetooth headset audio troubleshooting guide](HEADSET-AUDIO.md). It
+documents a separate, confirmed recovery on a 2019 Mac Pro.
+
 **The implementation is already fixed upstream.** This repository helps users
 of older packages reproduce, test, and backport it. It is not a new Bluetooth
 hardware driver or an official Omarchy/BlueZ project.
@@ -64,8 +68,10 @@ On a 2019 Mac Pro (MacPro7,1) with Omarchy and BlueZ 5.87-2:
 
 See [validation and hardware details](VALIDATION.md). The active controller uses
 Realtek RTL8761BU firmware. This is not proof of support for the Mac's internal
-Bluetooth controller. Pairing, audio, suspend/resume, and reconnection have not
-been tested.
+Bluetooth controller. Subsequent user testing confirmed headset pairing and
+audio playback. A missing audio output after reconnection was restored by
+trusting the already-paired headset and reconnecting it; see
+[the headset guide](HEADSET-AUDIO.md). Suspend/resume remains untested.
 
 [GitHub Actions](https://github.com/MossMouse213/bluetoothctl-dbus-fix/actions/workflows/regression.yml)
 repeats the build and failure tests on pushes and pull requests. The badge above
