@@ -1,5 +1,7 @@
 # bluetoothctl D-Bus crash fix for BlueZ 5.87
 
+[![Bluetoothctl regression](https://github.com/MossMouse213/bluetoothctl-dbus-fix/actions/workflows/regression.yml/badge.svg)](https://github.com/MossMouse213/bluetoothctl-dbus-fix/actions/workflows/regression.yml)
+
 A tested backport and regression suite for `bluetoothctl` aborting with
 `dbus_connection_get_object_path_data` and `connection != NULL` when system
 D-Bus is unavailable. Useful on Omarchy/Arch and in restricted environments.
@@ -65,9 +67,9 @@ Realtek RTL8761BU firmware. This is not proof of support for the Mac's internal
 Bluetooth controller. Pairing, audio, suspend/resume, and reconnection have not
 been tested.
 
-A GitHub Actions workflow repeats the build and failure tests. Its hosted
-result will be available only after publication and execution; local tests
-have passed.
+[GitHub Actions](https://github.com/MossMouse213/bluetoothctl-dbus-fix/actions/workflows/regression.yml)
+repeats the build and failure tests on pushes and pull requests. The badge above
+shows the latest hosted result; local tests have passed.
 
 ## Installation and troubleshooting
 
