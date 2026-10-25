@@ -85,8 +85,12 @@ these results do not establish support for the Mac's internal controller.
 - Marking that already-paired headset trusted and reconnecting it restored its
   PipeWire card and A2DP output; Firefox was routed to it, and the user confirmed
   the recovery worked. See [the separate headset guide](HEADSET-AUDIO.md).
-- Repeated power-cycle reliability, microphone recording, and reconnect after
-  suspend have not been verified.
+- On 2026-10-24, microphone capture and local Voxtype transcription were
+  verified after selecting the HSP/HFP mSBC profile and making the unmuted
+  Bluetooth input the default source. The user confirmed the headset worked.
+  Exact recognition of the “taco cat” phrase was not achieved. See the
+  [microphone verification details](HEADSET-AUDIO.md#microphone-and-dictation-verification-2026-10-24).
+- Repeated power-cycle reliability and reconnect after suspend remain unverified.
 
 No MAC addresses, core dumps, or pairing keys are included in this report.
 

@@ -71,7 +71,10 @@ Realtek RTL8761BU firmware. This is not proof of support for the Mac's internal
 Bluetooth controller. Subsequent user testing confirmed headset pairing and
 audio playback. A missing audio output after reconnection was restored by
 trusting the already-paired headset and reconnecting it; see
-[the headset guide](HEADSET-AUDIO.md). Suspend/resume remains untested.
+[the headset guide](HEADSET-AUDIO.md). Subsequent testing also verified headset
+microphone capture and local dictation transcription using HSP/HFP mSBC;
+see [microphone verification](HEADSET-AUDIO.md#microphone-and-dictation-verification-2026-10-24).
+Suspend/resume remains untested.
 
 [GitHub Actions](https://github.com/MossMouse213/bluetoothctl-dbus-fix/actions/workflows/regression.yml)
 repeats the build and failure tests on pushes and pull requests. The badge above
